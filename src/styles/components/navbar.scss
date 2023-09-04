@@ -1,0 +1,38 @@
+.c-navbar {
+    width: 100%;
+    display: flex;
+    padding: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    color: $color-primary;
+    background-color: transparent;
+
+    &__search {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin: 0 2rem;
+
+        &:focus-within {
+            outline: none;
+            border: 0.0625rem solid $color-primary;
+            border-radius: 0.25rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem 0;
+            background-color: transparent;
+            border: none;
+            color: white;
+
+            &:focus-visible {
+                outline: none;
+            }
+        }
+
+        &_icon {
+            margin: 0 0.5rem;
+        }
+    }
+}
