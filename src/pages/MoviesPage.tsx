@@ -1,41 +1,22 @@
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchPopularMoviesAction} from '../store/actions/movieActions';
+import {fetchMovieListsAction} from '../store/actions/movieActions';
 import {StoreState} from '../store/reducers/rootReducer';
-import {useNavigate} from 'react-router-dom';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
+import MovieListSection from '../components/MovieListSection';
 
 const MoviesPage = () => {
-    const {movieList} = useSelector((state: StoreState) => state.movieReducer);
+    const {popularMovieList, actionMovieList, documentaryMovieList} = useSelector((state: StoreState) => state.movieReducer);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     useEffect(() => {
-        dispatch(fetchPopularMoviesAction());
+        dispatch(fetchMovieListsAction());
     }, [dispatch]);
 
     return (
         <div className="p-movies">
-            <section>
-                <h2>Popular</h2>
-
-                <ImageList
-                    sx={{
-                        gridAutoFlow: 'column',
-                        gridTemplateColumns: 'repeat(auto-fill,minmax(160px,1fr)) !important',
-                        gridAutoColumns: 'minmax(160px, 1fr)',
-                    }}
-                >
-                    {movieList.map((movie) => (
-                        <div className="movie-img" onClick={() => navigate(`${movie.id}`)}>
-                            <ImageListItem>
-                                <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
-                            </ImageListItem>
-                        </div>
-                    ))}
-                </ImageList>
-            </section>
+            <MovieListSection sectionTitle="Popular" movies={popularMovieList} />
+            <MovieListSection sectionTitle="Action" movies={actionMovieList} />
+            <MovieListSection sectionTitle="Documentary" movies={documentaryMovieList} />
         </div>
     );
 };

@@ -1,8 +1,29 @@
 import {Movie} from '../../../types';
-import {FETCH_POPULAR_MOVIES, SET_POPULAR_MOVIES_LIST} from '../movieActions';
+import {
+    FETCH_ACTION_MOVIES,
+    FETCH_DOCUMENTARY_MOVIES,
+    FETCH_MOVIE_LISTS,
+    SET_ACTION_MOVIE_LIST,
+    SET_DOCUMENTARY_MOVIE_LIST,
+    SET_IS_LOADING,
+    SET_POPULAR_MOVIES_LIST,
+} from '../movieActions';
 
-export type FetchPopularMoviesAction = {
-    type: typeof FETCH_POPULAR_MOVIES;
+export type SetIsLoadingAction = {
+    type: typeof SET_IS_LOADING;
+    isLoading: boolean;
+};
+
+export type FetchMovieListsAction = {
+    type: typeof FETCH_MOVIE_LISTS;
+};
+
+export type FetchActionMoviesAction = {
+    type: typeof FETCH_ACTION_MOVIES;
+};
+
+export type FetchDocumentaryMoviesAction = {
+    type: typeof FETCH_DOCUMENTARY_MOVIES;
 };
 
 export type SetPopularMovieListAction = {
@@ -10,4 +31,21 @@ export type SetPopularMovieListAction = {
     movies: Movie[];
 };
 
-export type MovieAction = FetchPopularMoviesAction | SetPopularMovieListAction;
+export type SetActionMovieListAction = {
+    type: typeof SET_ACTION_MOVIE_LIST;
+    movies: Movie[];
+};
+
+export type SetDocumentaryMovieListAction = {
+    type: typeof SET_DOCUMENTARY_MOVIE_LIST;
+    movies: Movie[];
+};
+
+export type MovieAction =
+    | SetIsLoadingAction
+    | FetchMovieListsAction
+    | FetchActionMoviesAction
+    | FetchDocumentaryMoviesAction
+    | SetPopularMovieListAction
+    | SetActionMovieListAction
+    | SetDocumentaryMovieListAction;

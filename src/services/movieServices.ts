@@ -9,7 +9,21 @@ const headers = {
 
 export const getPopularMovies = async () => {
     return await axios
-        .get(`${BASE_URL}/movie/upcoming`, {headers})
+        .get(`${BASE_URL}/trending/movie/day`, {headers})
+        .then((res) => res.data)
+        .catch((err) => console.log(err));
+};
+
+export const getActionMovies = async () => {
+    return await axios
+        .get(`${BASE_URL}/discover/movie?api_key=${API_TOKEN}&with_genres=28`, {headers})
+        .then((res) => res.data)
+        .catch((err) => console.log(err));
+};
+
+export const getDocumentaryMovies = async () => {
+    return await axios
+        .get(`${BASE_URL}/discover/movie?api_key=${API_TOKEN}&with_genres=99`, {headers})
         .then((res) => res.data)
         .catch((err) => console.log(err));
 };
