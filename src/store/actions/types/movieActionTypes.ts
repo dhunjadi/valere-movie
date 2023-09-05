@@ -1,8 +1,10 @@
 import {Movie} from '../../../types';
 import {
+    ADD_TO_FAVORITES,
     FETCH_ACTION_MOVIES,
     FETCH_DOCUMENTARY_MOVIES,
     FETCH_MOVIE_LISTS,
+    REMOVE_FROM_FAVORITES,
     SET_ACTION_MOVIE_LIST,
     SET_DOCUMENTARY_MOVIE_LIST,
     SET_IS_LOADING,
@@ -41,6 +43,16 @@ export type SetDocumentaryMovieListAction = {
     movies: Movie[];
 };
 
+export type AddToFavoritesAction = {
+    type: typeof ADD_TO_FAVORITES;
+    id: string;
+};
+
+export type RemoveFromFavoritesAction = {
+    type: typeof REMOVE_FROM_FAVORITES;
+    id: string;
+};
+
 export type MovieAction =
     | SetIsLoadingAction
     | FetchMovieListsAction
@@ -48,4 +60,6 @@ export type MovieAction =
     | FetchDocumentaryMoviesAction
     | SetPopularMovieListAction
     | SetActionMovieListAction
-    | SetDocumentaryMovieListAction;
+    | SetDocumentaryMovieListAction
+    | AddToFavoritesAction
+    | RemoveFromFavoritesAction;

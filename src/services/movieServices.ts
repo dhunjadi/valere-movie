@@ -27,3 +27,10 @@ export const getDocumentaryMovies = async () => {
         .then((res) => res.data)
         .catch((err) => console.log(err));
 };
+
+export const getMovieById = async (id: string) => {
+    return await axios
+        .get(`${BASE_URL}/movie/${id}`, {headers})
+        .then((res) => res.data)
+        .catch((err) => console.log(err));
+};

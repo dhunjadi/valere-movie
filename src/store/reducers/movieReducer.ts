@@ -1,5 +1,12 @@
 import {Movie} from '../../types';
-import {SET_ACTION_MOVIE_LIST, SET_DOCUMENTARY_MOVIE_LIST, SET_IS_LOADING, SET_POPULAR_MOVIES_LIST} from '../actions/movieActions';
+import {
+    ADD_TO_FAVORITES,
+    REMOVE_FROM_FAVORITES,
+    SET_ACTION_MOVIE_LIST,
+    SET_DOCUMENTARY_MOVIE_LIST,
+    SET_IS_LOADING,
+    SET_POPULAR_MOVIES_LIST,
+} from '../actions/movieActions';
 import {MovieAction} from '../actions/types/movieActionTypes';
 
 export interface MovieReducerState {
@@ -7,6 +14,7 @@ export interface MovieReducerState {
     popularMovieList: Movie[];
     actionMovieList: Movie[];
     documentaryMovieList: Movie[];
+    favoritedMovieIds: string[];
 }
 
 const initialState: MovieReducerState = {
@@ -14,6 +22,7 @@ const initialState: MovieReducerState = {
     popularMovieList: [],
     actionMovieList: [],
     documentaryMovieList: [],
+    favoritedMovieIds: [],
 };
 
 export const movieReducer = (state: MovieReducerState = initialState, action: MovieAction) => {
@@ -37,6 +46,16 @@ export const movieReducer = (state: MovieReducerState = initialState, action: Mo
             return {
                 ...state,
                 documentaryMovieList: action.movies,
+            };
+        case ADD_TO_FAVORITES:
+            return {
+                ...state,
+                favoritedMovieIds: [...state.favoritedMovieIds, action.id],
+            };
+        case REMOVE_FROM_FAVORITES:
+            return {
+                ...state,
+                favoritedMovieIds: [...state.favoritedMovieIds.filter((id) => id !== action.id)],
             };
         default:
             return state;
