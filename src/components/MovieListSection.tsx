@@ -24,7 +24,7 @@ const MovieListSection = ({sectionTitle, movies}: MovieListSectionProps) => {
             ) : (
                 <div className="c-movieListSection__movies">
                     {movies.map((movie) => {
-                        return <MovieItem movie={movie} />;
+                        return <MovieItem key={movie.id} movie={movie} />;
                     })}
                 </div>
             )}

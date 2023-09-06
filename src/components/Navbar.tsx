@@ -1,24 +1,34 @@
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {useSelector} from 'react-redux';
 import {StoreState} from '../store/reducers/rootReducer';
 import {useNavigate} from 'react-router-dom';
+import {getMoviesBySearch} from '../services/movieServices';
+import {Movie} from '../types';
+import {useDebounce} from '../hooks/useDebounce';
+import Dropdown from './Dropdown';
 
 const Navbar = () => {
     const {favoritedMovies} = useSelector((state: StoreState) => state.movieReducer);
     const [searchText, setSearchText] = useState<string>('');
-    const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+    const [isFavoritesDropdownOpen, setIsFavoritesDropdownOpen] = useState<boolean>(false);
+    const [moviesInSearch, setMoviesInSearch] = useState<Movie[]>([]);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const navigate = useNavigate();
+    const debouncedValue = useDebounce(searchText, 1000);
+
+    useEffect(() => {
+        searchText ? getMoviesBySearch(debouncedValue).then((res) => setMoviesInSearch(res.results)) : setMoviesInSearch([]);
+    }, [debouncedValue, searchText]);
 
     const handleSearchIconClick = () => {
         inputRef.current?.focus();
     };
 
     const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
+        setIsFavoritesDropdownOpen(!isFavoritesDropdownOpen);
     };
 
     return (
@@ -38,24 +48,17 @@ const Navbar = () => {
                     value={searchText}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchText(e.target.value)}
                 />
+
+                {moviesInSearch.length > 0 && <Dropdown title="Search" items={moviesInSearch} isOpen={moviesInSearch.length > 0} />}
             </div>
 
             <div className="c-navbar__favorites">
                 <IconButton color="inherit" onClick={toggleDropdown}>
                     <FavoriteIcon />
                 </IconButton>
-
-                <div className={`c-navbar__dropdown ${isDropdownOpen && 'is-open'}`}>
-                    {favoritedMovies.map((movie) => {
-                        return (
-                            <div key={movie.id} className="c-navbar__dropdown_item" onClick={() => navigate(`movies/${movie.id}`)}>
-                                <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="movie poster" />
-                                <span>{movie.title}</span>
-                            </div>
-                        );
-                    })}
-                </div>
             </div>
+
+            {isFavoritesDropdownOpen && <Dropdown title="Favorites" items={favoritedMovies} isOpen={isFavoritesDropdownOpen} />}
         </header>
     );
 };

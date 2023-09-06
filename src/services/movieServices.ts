@@ -34,3 +34,10 @@ export const getMovieById = async (id: string) => {
         .then((res) => res.data)
         .catch((err) => console.log(err));
 };
+
+export const getMoviesBySearch = async (query: string) => {
+    return await axios
+        .get(`${BASE_URL}/search/movie?query=${query}&include_adult=false&language=en-US&page=1`, {headers})
+        .then((res) => res.data)
+        .catch((err) => console.log(err));
+};
