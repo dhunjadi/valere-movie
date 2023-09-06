@@ -7,6 +7,7 @@
     align-items: center;
     color: $color-primary;
     background-color: transparent;
+    z-index: 999;
 
     &__search {
         display: flex;
@@ -34,6 +35,52 @@
 
         &_icon {
             margin: 0 0.5rem;
+        }
+    }
+
+    &__favorites {
+        position: relative;
+
+        &_dropdown {
+            width: 100%;
+            color: white;
+            border: 1px solid white;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+}
+
+.c-navbar__dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: $color-black;
+    border: 1px solid $color-primary;
+    z-index: 9999;
+    width: 300px;
+
+    &.is-open {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    &_item {
+        background-color: $color-black;
+        width: 100%;
+
+        max-height: 10rem;
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+
+        img {
+            max-height: 5rem;
+            object-fit: cover;
+            margin-right: 1rem;
         }
     }
 }

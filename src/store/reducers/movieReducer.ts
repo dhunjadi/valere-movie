@@ -14,7 +14,7 @@ export interface MovieReducerState {
     popularMovieList: Movie[];
     actionMovieList: Movie[];
     documentaryMovieList: Movie[];
-    favoritedMovieIds: string[];
+    favoritedMovies: Movie[];
 }
 
 const initialState: MovieReducerState = {
@@ -22,7 +22,7 @@ const initialState: MovieReducerState = {
     popularMovieList: [],
     actionMovieList: [],
     documentaryMovieList: [],
-    favoritedMovieIds: [],
+    favoritedMovies: [],
 };
 
 export const movieReducer = (state: MovieReducerState = initialState, action: MovieAction) => {
@@ -50,12 +50,12 @@ export const movieReducer = (state: MovieReducerState = initialState, action: Mo
         case ADD_TO_FAVORITES:
             return {
                 ...state,
-                favoritedMovieIds: [...state.favoritedMovieIds, action.id],
+                favoritedMovies: [...state.favoritedMovies, action.movie],
             };
         case REMOVE_FROM_FAVORITES:
             return {
                 ...state,
-                favoritedMovieIds: [...state.favoritedMovieIds.filter((id) => id !== action.id)],
+                favoritedMovies: [...state.favoritedMovies.filter((movie) => movie.id !== action.id)],
             };
         default:
             return state;

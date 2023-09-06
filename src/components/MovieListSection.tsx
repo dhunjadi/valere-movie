@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import {addToFavoritesAction, removeFromFavoritesAction} from '../store/actions/movieActions';
+import Button from './Button';
 
 type MovieListSectionProps = {
     sectionTitle: string;
@@ -15,7 +16,7 @@ type MovieListSectionProps = {
 };
 
 const MovieListSection = ({sectionTitle, movies}: MovieListSectionProps) => {
-    const {isLoading, favoritedMovieIds} = useSelector((state: StoreState) => state.movieReducer);
+    const {isLoading, favoritedMovies} = useSelector((state: StoreState) => state.movieReducer);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -36,7 +37,8 @@ const MovieListSection = ({sectionTitle, movies}: MovieListSectionProps) => {
                     }}
                 >
                     {movies.map((movie) => {
-                        const isFavorited = favoritedMovieIds.includes(movie.id.toString());
+                        const isFavorited = favoritedMovies.some((favMovie) => favMovie.id === movie.id);
+
                         return (
                             <React.Fragment key={movie.id}>
                                 <div className="p-movies__movieList_movie">
@@ -46,15 +48,15 @@ const MovieListSection = ({sectionTitle, movies}: MovieListSectionProps) => {
                                             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                                         />
                                     </ImageListItem>
-                                    <button
+                                    <Button
                                         onClick={() => {
                                             isFavorited
-                                                ? dispatch(removeFromFavoritesAction(movie.id.toString()))
-                                                : dispatch(addToFavoritesAction(movie.id.toString()));
+                                                ? dispatch(removeFromFavoritesAction(movie.id))
+                                                : dispatch(addToFavoritesAction(movie));
                                         }}
                                     >
                                         {isFavorited ? 'Remove from favorites' : 'Add to favorites'}
-                                    </button>
+                                    </Button>
                                 </div>
                             </React.Fragment>
                         );

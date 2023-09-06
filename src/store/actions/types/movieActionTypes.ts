@@ -45,7 +45,7 @@ export type SetDocumentaryMovieListAction = {
 
 export type AddToFavoritesAction = {
     type: typeof ADD_TO_FAVORITES;
-    id: string;
+    movie: Movie;
 };
 
 export type RemoveFromFavoritesAction = {

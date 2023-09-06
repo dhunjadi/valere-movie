@@ -1,17 +1,17 @@
 import {useParams} from 'react-router-dom';
-
 import {useEffect, useState} from 'react';
 import {getMovieById} from '../services/movieServices';
 import {Movie} from '../types';
 import {useDispatch, useSelector} from 'react-redux';
 import {StoreState} from '../store/reducers/rootReducer';
 import {addToFavoritesAction, removeFromFavoritesAction} from '../store/actions/movieActions';
+import Button from '../components/Button';
 
 const MovieDetailsPage = () => {
-    const {favoritedMovieIds} = useSelector((state: StoreState) => state.movieReducer);
+    const {favoritedMovies} = useSelector((state: StoreState) => state.movieReducer);
     const {id} = useParams();
     const [movie, setMovie] = useState<Movie>();
-    const isFavorited = favoritedMovieIds.includes(id!);
+    const isFavorited = favoritedMovies.some((favMovie) => favMovie.id === movie?.id);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -19,11 +19,7 @@ const MovieDetailsPage = () => {
     }, [id]);
 
     const handleAddRemoveFromFavorites = () => {
-        if (isFavorited) {
-            dispatch(removeFromFavoritesAction(id!));
-        } else {
-            dispatch(addToFavoritesAction(id!));
-        }
+        movie && isFavorited ? dispatch(removeFromFavoritesAction(movie.id)) : dispatch(addToFavoritesAction(movie!));
     };
 
     return (
@@ -42,7 +38,7 @@ const MovieDetailsPage = () => {
                     <span>Overview:</span> <p>{movie?.overview}</p>
                 </div>
 
-                <button onClick={handleAddRemoveFromFavorites}>{isFavorited ? 'Remove from favorites' : 'Add to favorites'}</button>
+                <Button onClick={handleAddRemoveFromFavorites}>{isFavorited ? 'Remove from favorites' : 'Add to favorites'}</Button>
             </div>
         </div>
     );

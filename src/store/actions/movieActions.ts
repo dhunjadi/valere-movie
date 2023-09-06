@@ -43,9 +43,9 @@ export const setDocumentaryMovieListAction = (movies: Movie[]): SetDocumentaryMo
     movies,
 });
 
-export const addToFavoritesAction = (id: string): AddToFavoritesAction => ({
+export const addToFavoritesAction = (movie: Movie): AddToFavoritesAction => ({
     type: ADD_TO_FAVORITES,
-    id,
+    movie,
 });
 
 export const removeFromFavoritesAction = (id: string): RemoveFromFavoritesAction => ({
